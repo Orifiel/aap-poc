@@ -1,0 +1,3 @@
+systemd-devel [platform:rpm]
+pkgconf-pkg-config [platform:rpm]
+libxml2-devel [platform:rpm]

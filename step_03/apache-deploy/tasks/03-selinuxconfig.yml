@@ -1,0 +1,21 @@
+- name: "[SELinux] Set SELinux Context for Apache"
+  ansible.builtin.sefcontext:
+    target: "{{ default_document_root }}(/.*)?"
+    setype: httpd_sys_content_t
+    state: present
+  register: sefcontext_result
+  notify: Reaload Apache Service
+
+- name: "[SELinux] Apply changes in SELINUX context file (restorecon)"
+  ansible.builtin.command:
+    cmd: "restorecon -RviF {{ default_document_root }}"
+  when: sefcontext_result.changed 
+  changed_when: false 
+  notify: Reaload Apache Service
+
+- name: "[SELinux] Allow Apache network connections"
+  ansible.posix.seboolean:
+    name: httpd_can_network_connect
+    state: true
+    persistent: true
+  notify: Reaload Apache Service

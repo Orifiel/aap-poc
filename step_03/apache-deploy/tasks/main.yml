@@ -1,0 +1,17 @@
+#SPDX-License-Identifier: MIT-0
+---
+# tasks file for apache-deploy
+- name: Install Apache HTTP Server
+  import_tasks: 00-install.yml
+
+- name: Enable Apache HTTP Server
+  import_tasks: 01-enable-service.yml
+
+- name: Setup My first Web package
+  import_tasks: 02-mywebpage.yml
+
+- name: SELINUX Configurations
+  import_tasks: 03-selinuxconfig.yml
+
+- name: Configure Firewall
+  import_tasks: 04-firewall.yml

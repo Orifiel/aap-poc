@@ -1,0 +1,8 @@
+- name: "[Apache] Create index.html webpage"
+  ansible.builtin.template:
+    src: index.html.j2
+    dest: "{{ default_document_root }}/index.html"
+    owner: apache
+    group: apache
+    mode: '0644'
+  notify: Reaload Apache Service 

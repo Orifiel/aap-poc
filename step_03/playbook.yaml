@@ -1,0 +1,10 @@
+---
+- name: Deploy Apache Server
+  hosts: apache
+  gather_facts: true
+  become: yes
+  become_user: root
+  
+  roles:
+    - apache-deploy
+    

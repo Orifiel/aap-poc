@@ -1,0 +1,13 @@
+#SPDX-License-Identifier: MIT-0
+---
+# defaults file for apache-deploy
+custom_welcome_message: |
+  # ------------------------------#
+  #   Bem vindo ao teste Ansible  #
+  # ------------------------------#
+
+default_document_root: /var/www/html
+apache_package_name: httpd
+apache_service_name: httpd
+firewall_service_name: http
+enable_httpd_network_connect: false
