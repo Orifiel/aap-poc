@@ -6,7 +6,7 @@
 
 curl -k -X POST \
   -H "Content-Type: application/json" \
-  -H "Authorization: Bearer [YOUR_BEARER_TOKEN]" \
+  -H "Authorization: Bearer " \
   -d '{
     "extra_vars": {
       "custom_welcome_message": "Esse é um teste de automação via api"
