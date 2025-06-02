@@ -3,4 +3,4 @@
 ### The {{ansible_hostname}} is an instance of the MYSQL Server ###
 # - Operating System: {{ ansible_distribution }} {{ ansible_distribution_version }}
 # - {{ service_version.stdout}}
-# - Current date and time: {{ ansible_date_time.iso3166 }}
+# - Current date and time: {{ ansible_date_time.epoch | int | strftime('%d/%m/%Y %H:%M:%S') }}
