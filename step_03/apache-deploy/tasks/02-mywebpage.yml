@@ -6,5 +6,5 @@
     group: apache
     mode: '0644'
   notify: Reaload Apache Service 
-  when: default_document_root is defined and default_document_root != ''
+  
 
