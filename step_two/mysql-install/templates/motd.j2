@@ -4,4 +4,3 @@
 # - Operating System: {{ ansible_distribution }} {{ ansible_distribution_version }}
 # - {{ service_version.stdout}}
 # - Current date and time: {{ ansible_date_time.iso8601 }}
-# - Uptime: {{ ansible_uptime_seconds | int | to_datetime('%H:%M:%S') }} 
