@@ -1,0 +1,5 @@
+#SPDX-License-Identifier: MIT-0
+---
+# defaults file for mysql-install
+package_name: mysql-server
+service_name: mysqld 

@@ -13,3 +13,5 @@
 - name: Configuring Password
   import_tasks: 03-configuring.yml
 
+- name: Motd message
+  import_tasks: 04-msgmotd.yml

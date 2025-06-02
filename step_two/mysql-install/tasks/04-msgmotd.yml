@@ -1,0 +1,17 @@
+- name: Motd
+  ansible.builtin.template:
+    src: files/motd.j2
+    dest: /etc/motd
+  tags:
+    - motd
+
+- name: Testing motd message
+  ansible.builtin.command:
+    cmd: cat /etc/motd
+  register: motd_content
+
+- name: Show motd content
+  ansible.builtin.debug:
+    msg: "Motd content: {{ motd_content.stdout }}"
+  tags:
+    - motd
