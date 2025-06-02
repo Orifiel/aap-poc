@@ -1,0 +1,17 @@
+# Substitua:
+# YOUR_AAP_CONTROLLER_URL: ex: https://172.16.190.22
+# YOUR_JOB_TEMPLATE_ID: ex: 13
+# YOUR_BEARER_TOKEN: take a token in aap
+# YOUR_CUSTOM_MESSAGE: "api teste"
+
+curl -k -X POST \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer [YOUR_BEARER_TOKEN]" \
+  -d '{
+    "extra_vars": {
+      "custom_welcome_message": "Esse é um teste de automação via api"
+    }
+  }' \
+  "https://172.16.190.22/api/controller/v2/job_templates/13/launch/"
+  "YOUR_AAP_CONTROLLER_URL/api/v2/job_templates/YOUR_JOB_TEMPLATE_ID/launch/"
+  
