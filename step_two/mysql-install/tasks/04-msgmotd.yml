@@ -1,6 +1,6 @@
 - name: Motd
   ansible.builtin.template:
-    src: files/motd.j2
+    src: templates/motd.j2
     dest: /etc/motd
   tags:
     - motd
