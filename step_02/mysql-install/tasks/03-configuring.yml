@@ -3,6 +3,7 @@
   mysql_user:
     login_user: "root"
     login_password: "{{ mysql_user_password }}"
+    column_case_sensitive: "false" 
     name: "myuser"
     host: "localhost"
     password: "{{ mysql_user_password }}"

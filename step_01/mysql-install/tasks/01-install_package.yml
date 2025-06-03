@@ -1,8 +1,8 @@
 ---
-- name: Instalar o conector Python MySQL 
-  ansible.builtin.yum:
-    name: python3-PyMySQL 
-    state: present
+#- name: Instalar o conector Python MySQL 
+#  ansible.builtin.yum:
+#    name: python3-PyMySQL 
+#    state: present
 
 
 - name: 'Install "{{ package_name }}" package'
