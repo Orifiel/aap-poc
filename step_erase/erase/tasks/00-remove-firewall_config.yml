@@ -1,0 +1,8 @@
+---
+- name: Deny Mysql traffic in 3306 port (firewalld)
+  ansible.posix.firewalld:
+    service: mysql
+    port: 3306/tcp
+    permanent: true
+    state: disabled
+    immediate: true

@@ -1,0 +1,12 @@
+---
+- name: Remove Configurations and Data
+  hosts: all
+  gather_facts: true
+  become: yes
+  become_user: root
+
+
+  roles:
+    - erase
+    
+    
