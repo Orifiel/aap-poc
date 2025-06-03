@@ -1,0 +1,13 @@
+---
+- name: Ensure MySQL users are present.
+  mysql_user:
+    login_user: "root"
+    login_password: "{{ mysql_user_password }}"
+    name: "myuser"
+    host: "localhost"
+    password: "{{ mysql_user_password }}"
+    priv: '*.*:ALL,GRANT'
+    state: "present"
+    
+
+

@@ -1,0 +1,26 @@
+---
+- name: Configure a New Database
+  mysql_db:
+    login_user: "myuser"
+    login_password: "{{ mysql_user_password }}"
+    name: "interview"
+    state: "absent"
+  register: db_creation
+
+- name: Check if the database is created
+  mysql_query:
+    login_user: "myuser"
+    login_password: "{{ mysql_user_password }}"
+    query: "SHOW DATABASES;"
+  register: db_check
+  changed_when: false
+  failed_when: false
+
+- name: Debug database creation
+  debug:
+    msg: "{{db_check.query_result}}"
+  
+
+
+
+  

@@ -1,0 +1,9 @@
+---
+- name: Inspecting the VM OS
+  ansible.builtin.command:
+    cmd: cat /etc/redhat-release
+  register: rhel_version
+
+- name: Show RHEL version
+  ansible.builtin.debug:
+    msg: "RHEL Version: {{ rhel_version.stdout }}"

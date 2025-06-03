@@ -1,0 +1,20 @@
+#SPDX-License-Identifier: MIT-0
+---
+#tasks file for mysql-install
+- name: Check OS version
+  import_tasks: 00-inspecting_os.yml
+
+- name: Install MySQL
+  import_tasks: 01-install_package.yml
+
+- name: Enable MySQL
+  import_tasks: 02-enable_service.yml
+
+- name: Configuring Password
+  import_tasks: 03-configuring.yml
+
+- name: Configure a New Database
+  import_tasks: 04-configure_database.yml
+
+- name: Configure Firewall
+  import_tasks: 05-firewall_config.yml

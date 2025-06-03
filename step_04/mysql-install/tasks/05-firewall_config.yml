@@ -1,0 +1,6 @@
+- name: Allow Mysql traffic in 3306 port (firewalld)
+  ansible.posix.firewalld:
+    port: 3306/tcp
+    permanent: true
+    state: enabled
+    immediate: true
