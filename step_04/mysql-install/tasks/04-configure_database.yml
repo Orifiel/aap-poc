@@ -4,7 +4,7 @@
     login_user: "myuser"
     login_password: "{{ mysql_user_password }}"
     name: "interview"
-    state: "absent"
+    state: "present"
   register: db_creation
 
 - name: Check if the database is created
