@@ -1,9 +1,10 @@
-ARG EE_BASE_IMAGE="quay.io/ansible/ansible-runner:latest"
+ARG EE_BASE_IMAGE="registry.redhat.io/ansible-automation-platform-23/ee-minimal-rhel8:latest"
+ARG EE_BUILDER_IMAGE="registry.redhat.io/ansible-automation-platform-23/ansible-builder-rhel8:latest"
 ARG PYCMD="/usr/bin/python3"
 ARG PKGMGR_PRESERVE_CACHE=""
 ARG ANSIBLE_GALAXY_CLI_COLLECTION_OPTS=""
 ARG ANSIBLE_GALAXY_CLI_ROLE_OPTS=""
-ARG PKGMGR="/usr/bin/dnf"
+ARG PKGMGR="/usr/bin/microdnf"
 
 # Base build stage
 FROM $EE_BASE_IMAGE as base
@@ -52,7 +53,8 @@ RUN $PYCMD -m pip install --no-cache-dir bindep pyyaml packaging
 
 COPY --from=galaxy /usr/share/ansible /usr/share/ansible
 
-RUN $PYCMD /output/scripts/introspect.py introspect --write-bindep=/tmp/src/bindep.txt --write-pip=/tmp/src/requirements.txt
+COPY _build/requirements.txt requirements.txt
+RUN $PYCMD /output/scripts/introspect.py introspect --user-pip=requirements.txt --write-bindep=/tmp/src/bindep.txt --write-pip=/tmp/src/requirements.txt
 RUN /output/scripts/assemble
 
 # Final build stage
