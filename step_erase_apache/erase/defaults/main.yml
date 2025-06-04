@@ -1,4 +1,12 @@
 ---
 # defaults file for erase
-package_name: mysql-server
-service_name: mysqld 
+custom_welcome_message: |
+  # ------------------------------#
+  #   Bem vindo ao teste Ansible  #
+  # ------------------------------#
+
+default_document_root: /var/www/html
+apache_package_name: httpd
+apache_service_name: httpd
+firewall_service_name: http
+enable_httpd_network_connect: false
