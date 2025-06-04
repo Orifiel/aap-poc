@@ -1,0 +1,22 @@
+---
+# tasks file for erase
+
+- name: Remove Firewall Config
+  import_tasks: 00-remove-firewall_config.yml
+  when: >
+    ('mysql-install' in (ansible_role_name | default(''))) or 
+    ('Deploy Mysql Full' in (tower_job_template_name | default('')))
+
+- name: Remove a Database
+  import_tasks: 01-remove-database.yml
+  when: >
+    ('mysql-install' in (ansible_role_name | default(''))) or 
+    ('Deploy Mysql Full' in (tower_job_template_name | default('')))
+
+- name: Remove configurations
+  import_tasks: 02-disable-service.yml
+  
+- name: Disable MySQL
+  import_tasks: 03-remove_package.yml
+  
+

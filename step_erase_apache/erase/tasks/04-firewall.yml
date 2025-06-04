@@ -1,0 +1,6 @@
+- name: "Enable Firewall"
+  ansible.posix.firewalld:
+    service: "{{ firewall_service_name }}"
+    permanent: true
+    state: disabled
+    immediate: true 

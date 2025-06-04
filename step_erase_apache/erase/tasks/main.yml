@@ -1,0 +1,18 @@
+---
+# tasks file for erase
+
+- name: Disable Firewall
+  import_tasks: 04-firewall.yml
+  
+- name: Disable Service
+  import_tasks: 03-disable-service.yml
+
+- name: Remove webpage
+  import_tasks: 02-mywebpage.yml
+
+- name: SELINUX
+  import_tasks: 01-change_selinux.yml
+
+- name: Remove Apache Package
+  import_tasks: 00-uninstall.yml
+

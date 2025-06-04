@@ -1,7 +1,7 @@
 ---
 - name: Remove Configurations and Data
-  hosts: all
-  gather_facts: true
+  hosts: mysql
+  gather_facts: false
   become: yes
   become_user: root
 

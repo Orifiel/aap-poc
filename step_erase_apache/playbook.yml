@@ -1,10 +1,12 @@
 ---
-- name: Deploy Apache Server
+- name: Remove Configurations and Data
   hosts: apache
   gather_facts: false
   become: yes
   become_user: root
-  
+
+
   roles:
-    - apache-deploy
+    - erase
+    
     

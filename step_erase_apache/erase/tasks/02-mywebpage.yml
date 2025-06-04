@@ -1,0 +1,7 @@
+- name: "[Apache] Create index.html webpage"
+  ansible.builtin.file:
+    path: "{{ default_document_root }}/index.html"
+    state: absent
+  
+  
+
