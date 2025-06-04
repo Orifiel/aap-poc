@@ -1,5 +1,5 @@
-- name: "[Apache] Enalbe the Apache Service:{{ apache_service_name }}"
+- name: "[Apache] Enable the Apache Service:{{ apache_service_name }}"
   ansible.builtin.service:
-    name: "{{ apache_service_name }}"
+    name: "{{ apache_service_nam }}" #removido a letra "e" do nome do serviço para testes
     state: started
     enabled: true
