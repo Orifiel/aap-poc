@@ -1,4 +1,4 @@
-- name: "Enable Firewall"
+- name: "Disable Firewall"
   ansible.posix.firewalld:
     service: "{{ firewall_service_name }}"
     permanent: true

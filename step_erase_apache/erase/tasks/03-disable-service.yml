@@ -1,4 +1,4 @@
-- name: "[Apache] Enalbe the Apache Service:{{ apache_service_name }}"
+- name: "[Apache] Disable the Apache Service:{{ apache_service_name }}"
   ansible.builtin.service:
     name: "{{ apache_service_name }}"
     state: started

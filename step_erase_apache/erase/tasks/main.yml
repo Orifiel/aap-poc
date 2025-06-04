@@ -10,9 +10,6 @@
 - name: Remove webpage
   import_tasks: 02-mywebpage.yml
 
-- name: SELINUX
-  import_tasks: 01-change_selinux.yml
-
 - name: Remove Apache Package
   import_tasks: 00-uninstall.yml
 

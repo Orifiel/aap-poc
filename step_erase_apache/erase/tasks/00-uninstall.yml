@@ -1,4 +1,4 @@
-- name: "Install Apache package {{ apache_package_name }}"
+- name: "Uninstall Apache package {{ apache_package_name }}"
   ansible.builtin.package:
     name: "{{ apache_package_name }}"
     state: absent
