@@ -1,7 +1,7 @@
 ---
 - name: Install MySQL
   hosts: mysql
-  gather_facts: false
+  gather_facts: true
   become: yes
   become_user: root
   

@@ -10,6 +10,4 @@
 - name: Enable MySQL
   import_tasks: 02-enable_service.yml
 
-- name: Configuring Password
-  import_tasks: 03-configuring.yml
 
