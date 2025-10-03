@@ -2,22 +2,22 @@
 
 Para execução dos playbooks, cada etapa precisa da collections correta:
 
-step 01
+step 01<br> 
 ansible-galaxy collection install ansible.posix <br> 
 ansible-galaxy collection install ansible.utils <br> 
 ansible-galaxy collection install community.mysql<br> 
 
-step 02
+step 02<br> 
 ansible-galaxy collection install ansible.posix<br> 
 ansible-galaxy collection install ansible.utils<br> 
 ansible-galaxy collection install community.mysql<br> 
 
-step 03
+step 03<br> 
 ansible-galaxy collection install ansible.posix<br> 
 ansible-galaxy collection install ansible.utils<br> 
 ansible-galaxy collection install community.general<br> 
 
-step 04
+step 04<br> 
 ansible-galaxy collection install ansible.posix<br> 
 ansible-galaxy collection install ansible.utils<br> 
 ansible-galaxy collection install community.mysql<br> 
