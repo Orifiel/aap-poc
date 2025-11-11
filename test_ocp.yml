@@ -1,5 +1,5 @@
 - name: Criar Namespace em Cada Cluster
-  hosts: all
+  hosts: local-cluster
   gather_facts: no
   tasks:
     - name: Criar Namespace
