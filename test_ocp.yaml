@@ -4,4 +4,4 @@
   connection: local
   tasks:
     - name: Auth in each cluster
-      ansible.builtin.command: "oc login --token={{cluster_token}} --server={{k8s_auth_host}} --tls-verify={{k8s_auth_validate_certs}}"
+      ansible.builtin.command: "oc login --token={{cluster_token}} --server={{k8s_auth_host}} --tls-verify=false"
