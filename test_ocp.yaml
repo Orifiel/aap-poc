@@ -5,11 +5,14 @@
  
   tasks:
     - name: Get pods
-      ansible.builtin.command: oc get pods
+      kubernetes.core.k8s_info:
+        kind: Pod
+        api_version: v1
+        namespace: all 
       register: pod_list
-      
+
     - name: Show me the pods
       ansible.builtin.debug:
-        var: pod_list
+        msg: "Pods encontrados: {{ pod_list.resouces | map(attribute='metadata.name') | list }}"
 
     
