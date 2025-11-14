@@ -1,13 +1,15 @@
 ---
 - name: Get pods
   hosts: all
+  vars:
+    k8s_host: "{{k8s_auth_host}}"
+    k8s_token: "{{ acm_api_token }}
   tasks:
-    - name: Auth in Cluster
-      ansible.builtin.command: "oc login --token={{OCP_Credential}} --server={{ api_cluster_url }}"
-    - name: Get pods
-      ansible.builtin.command: oc get pods
-      register: "{{inventory_hostname}}-all-pods"
-    - name: Show pods
-      ansible.builtin.debug:
-        var: "{{inventory_hostname}}-all-pods"
+    - name: Ensure the myapp Namespace exists.
+      kubernetes.core.k8s:
+        api_version: v1
+        kind: Namespace
+        name: myapp
+        state: present
+
       
