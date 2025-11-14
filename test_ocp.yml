@@ -1,6 +1,13 @@
 ---
 - name: Get pods
-  hosts: localhost
+  hosts: all
   tasks:
+    - name: Auth in Cluster
+      ansible.builtin.command: oc login 
     - name: Get pods
       ansible.builtin.command: oc get pods
+      register: "{{inventory_hostname}}-all-pods"
+    - name: Show pods
+      ansible.builtin.debug:
+        var: "{{inventory_hostname}}-all-pods"
+      
