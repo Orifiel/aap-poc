@@ -1,6 +1,6 @@
 ---
 - name: Get pods
-  hosts: localhost
+  hosts: all
   connection: local
   tasks:
     - name: Get a list of all pods from any namespace
