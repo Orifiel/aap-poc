@@ -1,16 +1,16 @@
 ---
 - name: Get pods
-  hosts: all
+  hosts: localhost
   connection: local
   tasks:
     - name: Get a list of all pods from any namespace
       kubernetes.core.k8s_info:
-        host: "{{ Host da API do Cluster }}"
-        api_key: "{{ API Bearer Token }}"
-        validate_certs: "false"
         kind: Pod
       register: pod_list
 
     - name: Show me the pods
       ansible.builtin.debug:
         var: pod_list
+
+    - name: Get pods
+      ansible.builtin.command: oc get pods
