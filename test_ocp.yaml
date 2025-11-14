@@ -4,4 +4,7 @@
   connection: local
   tasks:
     - name: Auth in each cluster
-      ansible.builtin.command: "oc login --token={{cluster_token}} --server={{k8s_auth_host}} --tls-verify=false"
+      ansible.builtin.command: "oc login --token={{cluster_token}} --server={{k8s_auth_host}} --insecure-skip-tls-verify=true"
+
+    - name: Get pods
+      ansible.builtin.command: oc get pods
