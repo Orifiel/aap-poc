@@ -3,14 +3,12 @@
   hosts: all
   connection: local
   tasks:
-    - name: Get a list of all pods from any namespace
-      kubernetes.core.k8s_info:
-        kind: Pod
+    - name: Get pods
+      ansible.builtin.command: oc get pods
       register: pod_list
 
     - name: Show me the pods
       ansible.builtin.debug:
         var: pod_list
 
-    - name: Get pods
-      ansible.builtin.command: oc get pods
+    
