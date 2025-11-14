@@ -5,9 +5,9 @@
   tasks:
     - name: Get a list of all pods from any namespace
       kubernetes.core.k8s_info:
-        host: "{{ K8S_AUTH_HOST }}"
-        api_key: "{{ K8S_AUTH_API_KEY }}"
-        validate_certs: "{{ K8S_AUTH_VERIFY_SSL }}"
+        host: "{{ Host da API do Cluster }}"
+        api_key: "{{ API Bearer Token }}"
+        validate_certs: "false"
         kind: Pod
       register: pod_list
 
