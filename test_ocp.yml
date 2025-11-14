@@ -3,7 +3,7 @@
   hosts: all
   tasks:
     - name: Auth in Cluster
-      ansible.builtin.command: oc login 
+      ansible.builtin.command: "oc login --token={{OCP_Credential}} --server={{ api_cluster_url }}"
     - name: Get pods
       ansible.builtin.command: oc get pods
       register: "{{inventory_hostname}}-all-pods"
