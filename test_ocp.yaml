@@ -1,6 +1,7 @@
 ---
 - name: Get pods
   hosts: all
+  connection: local
   tasks:
     - name: Get pods
       ansible.builtin.command: oc get pods
