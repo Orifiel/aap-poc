@@ -4,11 +4,6 @@
   connection: local
  
   tasks:
-    - name: Get a list of all pods from any namespace
-      k8s_info:
-        kind: Pod
-      register: pod_list
-
     - name: Show me the pods
       ansible.builtin.debug:
         var: pod_list
