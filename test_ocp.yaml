@@ -4,5 +4,5 @@
   connection: local
   tasks:
     - name: Get pods
-      ansible.builtin.command: oc get pods
+      ansible.builtin.command: "oc get pods"
       register: pod_list
