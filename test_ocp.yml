@@ -11,5 +11,3 @@
         kind: Namespace
         name: myapp
         state: present
-
-      
