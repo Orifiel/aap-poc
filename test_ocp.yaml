@@ -6,7 +6,7 @@
     - name: Get a list of all pods from any namespace
       kubernetes.core.k8s_info:
         kind: Pod
-  register: pod_list
+      register: pod_list
 
     - name: Show me the pods
       ansible.builtin.debug:
