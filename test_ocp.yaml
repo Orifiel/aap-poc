@@ -1,18 +1,8 @@
 ---
 - name: Get pods
-  hosts: all
+  hosts: localhost
   connection: local
- 
   tasks:
     - name: Get pods
-      kubernetes.core.k8s_info:
-        kind: Pod
-        api_version: v1
-        namespace: all 
+      ansible.builtin.command: oc get pods
       register: pod_list
-
-    - name: Show me the pods
-      ansible.builtin.debug:
-        msg: "Pods encontrados: {{ pod_list.resouces | map(attribute='metadata.name') | list }}"
-
-    
