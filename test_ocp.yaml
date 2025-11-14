@@ -2,8 +2,7 @@
 - name: Get pods
   hosts: all
   connection: local
-  vars:
-    ansible_python_interpreter: /usr/byn/python3
+ 
   tasks:
     - name: Get a list of all pods from any namespace
       kubernetes.core.k8s_info:
