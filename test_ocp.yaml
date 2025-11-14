@@ -1,13 +1,6 @@
 ---
 - name: Get pods
   hosts: all
-  vars:
-    k8s_host: "{{k8s_auth_host}}"
-    k8s_token: "{{ acm_api_token }}
   tasks:
-    - name: Ensure the myapp Namespace exists
-      kubernetes.core.k8s:
-        api_version: v1
-        kind: Namespace
-        name: myapp
-        state: present
+    - name: Get pods
+      ansible.builtin.command: oc get pods
