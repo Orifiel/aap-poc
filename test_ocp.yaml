@@ -18,6 +18,6 @@
     #  ansible.builtin.command: "oc get pods"
     #  register: pod_list
 
-    - name: Show the pods
-      ansible.builtin.debug:
-        var: pod_list
+    #- name: Show the pods
+    #  ansible.builtin.debug:
+    #    var: pod_list
