@@ -10,16 +10,16 @@
         - "{{ inventory_hostname }}"
         
     
-                 
+              
   
-    #- name: Auth to cluster
-    #  ansible.builtin.command: 
-    #    cmd: "oc login --token={{ api_token }} --server={{ url_api }}"
+    - name: Auth to cluster
+      ansible.builtin.command: 
+        cmd: "oc login --token={{ K8S_AUTH_API_KEY }} --server={{ {{hostvars[item].environment['K8S_AUTH_HOST']}} }}"
 
-    #- name: Get pods
-    #  ansible.builtin.command: "oc get pods"
-    #  register: pod_list
+    - name: Get pods
+      ansible.builtin.command: "oc get pods"
+      register: pod_list
 
-    #- name: Show the pods
-    #  ansible.builtin.debug:
-    #    var: pod_list
+    - name: Show the pods
+      ansible.builtin.debug:
+        var: pod_list
