@@ -6,13 +6,19 @@
     url_api: "{{ environment['K8S_AUTH_HOST'] }}"
     api_token: "{{ environment['K8S_AUTH_API_KEY'] }}"
   tasks:
-    - name: Auth to cluster
-      ansible.builtin.command: 
-        cmd: "oc login --token={{ api_token }} --server={{ url_api }}"
+    - name: teste
+      debug:
+        msg: |
+          url_api
+          api_token
+  
+    #- name: Auth to cluster
+    #  ansible.builtin.command: 
+    #    cmd: "oc login --token={{ api_token }} --server={{ url_api }}"
 
-    - name: Get pods
-      ansible.builtin.command: "oc get pods"
-      register: pod_list
+    #- name: Get pods
+    #  ansible.builtin.command: "oc get pods"
+    #  register: pod_list
 
     - name: Show the pods
       ansible.builtin.debug:
