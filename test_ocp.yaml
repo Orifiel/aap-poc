@@ -1,6 +1,6 @@
 ---
 - name: Get pods
-  hosts: all
+  hosts: local-cluster
   connection: local
   vars:
     url_api: "{{ environment['K8S_AUTH_HOST'] }}"
