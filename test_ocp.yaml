@@ -2,8 +2,8 @@
 - name: Get pods
   hosts: all
   vars:
-    url_api: "{{ lookup('env', 'K8S_AUTH_HOST') }}"
-    api_token: "{{ lookup('env', 'K8S_AUTH_API_KEY') }}"
+    url_api: "{{ environment['K8S_AUTH_HOST'] }}"
+    api_token: "{{ environment['K8S_AUTH_API_KEY'] }}"
   tasks:
     - name: Auth to cluster
       ansible.builtin.command: 
