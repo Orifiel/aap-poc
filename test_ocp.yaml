@@ -7,8 +7,9 @@
     api_token: "{{ environment['K8S_AUTH_API_KEY'] }}"
   tasks:
     - name: teste
-      debug:
-        var: inventory_hostname  
+      setup:
+      
+                 
   
     #- name: Auth to cluster
     #  ansible.builtin.command: 
