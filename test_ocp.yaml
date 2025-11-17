@@ -8,7 +8,7 @@
   tasks:
     - name: teste
       debug:
-        var: hostvars['all']  
+        var: inventory_hostname['environment']  
   
     #- name: Auth to cluster
     #  ansible.builtin.command: 
