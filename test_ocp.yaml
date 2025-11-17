@@ -6,7 +6,7 @@
     - name: teste2
       debug:
         msg: |
-          "{{ hostvars[item].environment['api_url'] }}"
+          "{{ hostvars[item].environment['K8S_AUTH_HOST'] }}"
       loop: 
         - "{{ inventory_hostname }}"
         
