@@ -9,8 +9,8 @@
     - name: teste
       debug:
         msg: |
-          url_api
-          api_token
+          "{{url_api}}"
+          "{{api_token}}"
   
     #- name: Auth to cluster
     #  ansible.builtin.command: 
