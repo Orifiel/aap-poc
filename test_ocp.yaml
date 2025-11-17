@@ -9,17 +9,22 @@
       loop: 
         - "{{ inventory_hostname }}"
         
-    
+    - name: Define credentials
+      set_fact:
+        api_url: "{{hostvars[item].environment['K8S_AUTH_HOST']}}"
+      loop: 
+        - "{{ inventory_hostname }}"
+        
               
   
     - name: Auth to cluster
       ansible.builtin.command: 
-        cmd: "oc login --token={{ K8S_AUTH_API_KEY }} --server={{ {{hostvars[item].environment['K8S_AUTH_HOST']}} }}"
-
+        cmd: "oc login --token={{ K8S_AUTH_API_KEY }} --server={{ api_url }}"
+        
     - name: Get pods
       ansible.builtin.command: "oc get pods"
       register: pod_list
-
+    
     - name: Show the pods
       ansible.builtin.debug:
         var: pod_list
