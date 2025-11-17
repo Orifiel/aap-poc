@@ -7,7 +7,7 @@
   tasks:
     - name: Auth to cluster
       ansible.builtin.command: 
-        cmd: "oc login --token={{ token }} --server={{ url_api }}"
+        cmd: "oc login --token={{ api_token }} --server={{ url_api }}"
 
     - name: Get pods
       ansible.builtin.command: "oc get pods"
