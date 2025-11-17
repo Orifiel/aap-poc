@@ -3,7 +3,7 @@
   hosts: all
   connection: local
   vars: 
-    api_url: "{{ lookup('env', 'K8S_AUTH_HOST' }}"
+    api_url: "{{ lookup('env', 'K8S_AUTH_HOST') }}"
   tasks: 
     - name: teste
       shell: echo $K8S_AUTH_HOST
