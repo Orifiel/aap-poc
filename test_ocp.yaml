@@ -2,13 +2,11 @@
 - name: Get pods
   hosts: all
   connection: local
-  vars:
-    url_api: "{{ environment['K8S_AUTH_HOST'] }}"
-    api_token: "{{ environment['K8S_AUTH_API_KEY'] }}"
-  tasks:
+  tasks: 
     - name: teste
-      setup:
-      
+      debug: ansible_facts
+  
+    
                  
   
     #- name: Auth to cluster
