@@ -23,6 +23,7 @@
         api_key: "{{ K8S_AUTH_API_KEY }}"
         validate_certs: false
         kind: Pod
+        namespace: openshift-apiserver
       register: pod_list
     
     - name: Show the pods
