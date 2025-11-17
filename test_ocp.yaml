@@ -9,7 +9,7 @@
 
     - name: teste2
       debug:
-        var teste
+        var: teste
   
     
                  
