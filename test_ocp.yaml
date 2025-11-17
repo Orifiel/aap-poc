@@ -2,6 +2,8 @@
 - name: Get pods
   hosts: all
   connection: local
+  vars: 
+    api_url: "{{ lookup('env', 'K8S_AUTH_HOST' }}"
   tasks: 
     - name: teste
       shell: echo $K8S_AUTH_HOST
@@ -9,7 +11,7 @@
 
     - name: teste2
       debug:
-        var: teste
+        var: api_url
   
     
                  
