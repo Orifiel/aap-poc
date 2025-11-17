@@ -4,7 +4,12 @@
   connection: local
   tasks: 
     - name: teste
-      debug: ansible_facts
+      shell: echo $K8S_AUTH_HOST
+      register: teste
+
+    - name: teste2
+      debug:
+        var teste
   
     
                  
