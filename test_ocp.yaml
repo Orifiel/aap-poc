@@ -28,7 +28,7 @@
     
     - name: Show the pods
       ansible.builtin.debug:
-        var: pod_list.stdout_lines
+        var: pod_list
       
         
               
