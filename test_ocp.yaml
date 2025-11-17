@@ -8,9 +8,7 @@
   tasks:
     - name: teste
       debug:
-        msg: |
-          "{{url_api}}"
-          "{{api_token}}"
+        var: hostvars['ACM_Clusters_API_from_Amazon']  
   
     #- name: Auth to cluster
     #  ansible.builtin.command: 
