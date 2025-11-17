@@ -1,6 +1,6 @@
 ---
 - name: Get pods
-  hosts: local-cluster
+  hosts: all
   connection: local
   vars:
     url_api: "{{ environment['K8S_AUTH_HOST'] }}"
@@ -8,7 +8,7 @@
   tasks:
     - name: teste
       debug:
-        var: inventory_hostname['environment']  
+        var: inventory_hostname  
   
     #- name: Auth to cluster
     #  ansible.builtin.command: 
