@@ -6,7 +6,8 @@
     api_token: "{{ lookup('env', 'K8S_AUTH_API_KEY') }}"
   tasks:
     - name: Auth to cluster
-      ansible.builtin.commmand: "oc login --token={{ token }} --server={{ url_api }}"
+      ansible.builtin.commmand: 
+        cmd: "oc login --token={{ token }} --server={{ url_api }}"
 
     - name: Get pods
       ansible.builtin.command: "oc get pods"
