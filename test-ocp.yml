@@ -11,11 +11,11 @@
       loop: 
         - "{{ inventory_hostname }}"
         
-    - name: Define credentials
-      set_fact:
-        api_url: "{{hostvars[item]['K8S_AUTH_HOST']}}"
-      loop: 
-        - "{{ inventory_hostname }}"
+    #- name: Define credentials
+     # set_fact:
+     #   api_url: "{{hostvars[item]['K8S_AUTH_HOST']}}"
+     # loop: 
+     #   - "{{ inventory_hostname }}"
 
     - name: Get pods
       kubernetes.core.k8s_info:
