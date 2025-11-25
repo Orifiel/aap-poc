@@ -19,9 +19,9 @@
 
     - name: Get pods
       kubernetes.core.k8s_info:
-        host: "{{ api_url }}"
-        api_key: "{{ K8S_AUTH_API_KEY }}"
-        validate_certs: false
+        #host: "{{ api_url }}"
+        #api_key: "{{ K8S_AUTH_API_KEY }}"
+        #validate_certs: false
         kind: Pod
         namespace: default
       register: rs
