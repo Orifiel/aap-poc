@@ -7,13 +7,13 @@
   tasks: 
     - name: teste2
       debug:
-        msg: "{{hostvars[item].environment['K8S_AUTH_HOST']}}"
+        msg: "{{hostvars[item]['K8S_AUTH_HOST']}}"
       loop: 
         - "{{ inventory_hostname }}"
         
     - name: Define credentials
       set_fact:
-        api_url: "{{hostvars[item].environment['K8S_AUTH_HOST']}}"
+        api_url: "{{hostvars[item]['K8S_AUTH_HOST']}}"
       loop: 
         - "{{ inventory_hostname }}"
 
