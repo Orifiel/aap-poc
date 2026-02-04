@@ -22,3 +22,5 @@ ansible-galaxy collection install ansible.posix<br>
 ansible-galaxy collection install ansible.utils<br> 
 ansible-galaxy collection install community.mysql<br> 
 ansible-galaxy collection install community.general<br> 
+
+TESTE
