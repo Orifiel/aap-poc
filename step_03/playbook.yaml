@@ -1,6 +1,6 @@
 ---
 - name: Deploy Apache Server
-  hosts: apache
+  hosts: all
   gather_facts: false
   become: yes
   become_user: root
