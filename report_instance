@@ -1,0 +1,31 @@
+---
+- name: Coletar informações do sistema via SSM
+  hosts: all
+  gather_facts: yes  # Essencial para pegar disco, memória e SO
+  tasks:
+    - name: Coletar quantidade de pacotes instalados (RedHat/Amazon Linux)
+      ansible.builtin.shell: "rpm -qa | wc -l"
+      register: rpm_count
+      when: ansible_os_family == "RedHat"
+
+    - name: Exibir Relatório da Instância
+      ansible.builtin.debug:
+        msg:
+          - "--------------------------------------------------"
+          - "RELATÓRIO DE SAÚDE DA INSTÂNCIA"
+          - "--------------------------------------------------"
+          - "Nome da Máquina (Hostname): {{ ansible_hostname }}"
+          - "Sistema Operacional:        {{ ansible_distribution }} {{ ansible_distribution_version }}"
+          - "Arquitetura:               {{ ansible_architecture }}"
+          - "--------------------------------------------------"
+          - "DISCO (Raiz /):"
+          - "  - Total:      {{ ansible_mounts[0].size_total | human_readable }}"
+          - "  - Disponível:   {{ ansible_mounts[0].size_available | human_readable }}"
+          - "--------------------------------------------------"
+          - "MEMÓRIA RAM:"
+          - "  - Total:      {{ ansible_memtotal_mb }} MB"
+          - "  - Livre:      {{ ansible_memfree_mb }} MB"
+          - "--------------------------------------------------"
+          - "SOFTWARES:"
+          - "  - Pacotes Instalados: {{ rpm_count.stdout if ansible_os_family == 'RedHat' else dpkg_count.stdout }}"
+          - "--------------------------------------------------"
