@@ -1,7 +1,9 @@
 ---
 - name: Coletar informações do sistema via SSM
   hosts: all
-  gather_facts: yes  # Essencial para pegar disco, memória e SO
+  gather_facts: yes  
+  vars:
+    ansible_stdout_callback: ansible.posix.profile_tasks
   tasks:
     - name: Coletar quantidade de pacotes instalados (RedHat/Amazon Linux)
       ansible.builtin.shell: "rpm -qa | wc -l"
