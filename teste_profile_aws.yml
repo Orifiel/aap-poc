@@ -17,8 +17,8 @@
       var: s3_buckets.buckets
 
   - name: Coletar informações da identidade atual
-      amazon.aws.aws_caller_info:
-      register: caller_facts
+    amazon.aws.aws_caller_info:
+    register: caller_facts
 
   - name: Mostrar ARN da Identidade em uso
     ansible.builtin.debug:
