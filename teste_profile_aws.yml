@@ -37,4 +37,4 @@
 
   - name: Mostrar ARN da Identidade em uso
     ansible.builtin.debug:
-      msg: "Identidade confirmada: {{ caller_facts_role_arn }}"
+      msg: "{{ caller_facts }}"
