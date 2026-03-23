@@ -4,12 +4,20 @@
   connection: local
   gather_facts: false
   
-
   tasks:
-  - name: Get list S3 buckets)
-    amazon.aws.s3_bucket_info:
-    register: s3_buckets
+  - name: Assume the target IAM role
+    amazon.aws.sts_assume_role:
+      role_arn: "{{ target_role_arn }}"
+      role_session_name: "{{ session_name }}"
+    register: assumed_role_creds 
 
+
+  - name: Use the assumed role credentials in a subsequent task (e.g., list S3 buckets)
+    amazon.aws.s3_bucket_info:
+      aws_access_key: "{{ assumed_role_creds.sts_creds.access_key }}"
+      aws_secret_key: "{{ assumed_role_creds.sts_creds.secret_key }}"
+      session_token: "{{ assumed_role_creds.sts_creds.session_token }}"
+    register: s3_buckets
 
   - name: Display S3 bucket info
     ansible.builtin.debug:
