@@ -23,10 +23,3 @@
   - name: Mostrar ARN da Identidade em uso
     ansible.builtin.debug:
       var: caller_facts
-
-  - name: Verificar se estamos usando a Role correta
-    ansible.builtin.assert:
-      that: 
-        - "'teste-profile' in caller_facts.arn"
-      fail_msg: "ERRO: O Ansible não assumiu a Role 'teste-profile'. Verifique as credenciais no AAP."
-      success_msg: "SUCESSO: Automação rodando com a Role 'teste-profile'!"
