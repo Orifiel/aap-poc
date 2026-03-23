@@ -30,8 +30,11 @@
 
   - name: Coletar informações da identidade atual
     amazon.aws.aws_caller_info:
+      aws_access_key: "{{ assumed_role_creds.sts_creds.access_key }}"
+      aws_secret_key: "{{ assumed_role_creds.sts_creds.secret_key }}"
+      aws_session_token: "{{ assumed_role_creds.sts_creds.session_token }}"
     register: caller_facts
 
   - name: Mostrar ARN da Identidade em uso
     ansible.builtin.debug:
-      var: caller_facts
+      msg: "Identidade confirmada: {{ caller_facts)role_arn }}"
