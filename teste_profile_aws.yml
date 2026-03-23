@@ -1,8 +1,10 @@
 ---
 - name: Assume an AWS IAM role and run tasks
-  hosts: all
-  become: true
+  hosts: localhost
+  connection: local
   gather_facts: false
+  vars:
+    session_name: "AnsibleSession"
   
   tasks:
   - name: Assume the target IAM role
@@ -10,6 +12,10 @@
       role_arn: "{{ target_role_arn }}"
       role_session_name: "{{ session_name }}"
     register: assumed_role_creds
+
+  - name: Display credentials
+    ansible.builtin.debug:
+      var: assumed_role_creds
    
   - name: Use the assumed role credentials in a subsequent task (e.g., list S3 buckets)
     amazon.aws.s3_bucket_info:
