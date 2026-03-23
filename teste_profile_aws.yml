@@ -4,8 +4,6 @@
   connection: local
   gather_facts: false
   vars:
-
-    target_role_arn: "arn:aws:iam::727646502313:role/teste-profile"
     session_name: "AnsibleSession"
 
   tasks:
