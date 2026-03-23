@@ -1,7 +1,6 @@
 ---
 - name: Assume an AWS IAM role and run tasks
-  hosts: localhost
-  connection: local
+  hosts: all
   gather_facts: false
   
   tasks:
@@ -10,9 +9,7 @@
       role_arn: "{{ target_role_arn }}"
       role_session_name: "{{ session_name }}"
     register: assumed_role_creds
-    ignore_errors: yes # Adicione isso temporariamente
-
-
+   
   - name: Use the assumed role credentials in a subsequent task (e.g., list S3 buckets)
     amazon.aws.s3_bucket_info:
       aws_access_key: "{{ assumed_role_creds.sts_creds.access_key }}"
