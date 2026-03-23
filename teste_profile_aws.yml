@@ -20,16 +20,16 @@
       amazon.aws.aws_caller_info:
       register: caller_facts
 
-    - name: Mostrar ARN da Identidade em uso
-      ansible.builtin.debug:
-        msg: 
-          - "Conta AWS: {{ caller_facts.account }}"
-          - "User ID:   {{ caller_facts.user_id }}"
-          - "ARN Atual: {{ caller_facts.arn }}"
+  - name: Mostrar ARN da Identidade em uso
+    ansible.builtin.debug:
+      msg: 
+        - "Conta AWS: {{ caller_facts.account }}"
+        - "User ID:   {{ caller_facts.user_id }}"
+        - "ARN Atual: {{ caller_facts.arn }}"
 
-    - name: Verificar se estamos usando a Role correta
-      ansible.builtin.assert:
-        that: 
-          - "'teste-profile' in caller_facts.arn"
-        fail_msg: "ERRO: O Ansible não assumiu a Role 'teste-profile'. Verifique as credenciais no AAP."
-        success_msg: "SUCESSO: Automação rodando com a Role 'teste-profile'!"
+  - name: Verificar se estamos usando a Role correta
+    ansible.builtin.assert:
+      that: 
+        - "'teste-profile' in caller_facts.arn"
+      fail_msg: "ERRO: O Ansible não assumiu a Role 'teste-profile'. Verifique as credenciais no AAP."
+      success_msg: "SUCESSO: Automação rodando com a Role 'teste-profile'!"
