@@ -5,7 +5,7 @@
   gather_facts: false
   vars:
 # Define the ARN of the role you want to assume
-  target_role_arn: "arn:aws:iam::123456789012:role/YourTargetRole"
+  target_role_arn: "arn:aws:iam::727646502313:role/teste-profile"
   session_name: "AnsibleSession"
   tasks:
   - name: Assume the target IAM role
