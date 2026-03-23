@@ -3,10 +3,7 @@
   hosts: localhost
   connection: local
   gather_facts: false
-  module_defaults:
-    group/amazon.aws.aws:
-      role_arn: "{{ lookup('env', 'AWS_ROLE_ARN') }}"
-      role_session_name: "AnsibleSession"
+  
 
   tasks:
   - name: Get list S3 buckets)
