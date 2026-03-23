@@ -22,10 +22,7 @@
 
   - name: Mostrar ARN da Identidade em uso
     ansible.builtin.debug:
-      msg: 
-        - "Conta AWS: {{ caller_facts.account }}"
-        - "User ID:   {{ caller_facts.user_id }}"
-        - "ARN Atual: {{ caller_facts.arn }}"
+      var: caller_facts
 
   - name: Verificar se estamos usando a Role correta
     ansible.builtin.assert:
