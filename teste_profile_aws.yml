@@ -1,6 +1,7 @@
 ---
 - name: Assume an AWS IAM role and run tasks
   hosts: localhost
+  connection: local
   become: true
   gather_facts: false
   vars:
