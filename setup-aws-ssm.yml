@@ -47,7 +47,7 @@
     - name: Criar o Instance Profile
       amazon.aws.iam_instance_profile:
         name: "{{ ec2_role_name }}"
-        role: "{{ ec2_role_name }}
+        role: "{{ ec2_role_name }}"
         state: present
 
     - name: Vincular o Instance Profile à instância EC2
