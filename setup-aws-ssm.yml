@@ -1,0 +1,81 @@
+---
+- name: Configurar AWS IAM para conexao via SSM
+  hosts: localhost
+  connection: local
+  gather_facts: false
+
+  vars:
+    # Nome da role que as instancias EC2 vao usar
+    ec2_role_name: "Role-Para-Instancias-SSM"
+    
+    # O nome da sua role do Ansible que ja existe
+    ansible_role_name: "teste-profile"
+    
+  tasks:
+    - name: 1.1 Criar a Role IAM para as Instancias EC2
+      amazon.aws.iam_role:
+        name: "{{ ec2_role_name }}"
+        description: "Permite que instancias EC2 se conectem via AWS Systems Manager (SSM)"
+        assume_role_policy_document: >
+          {
+            "Version": "2012-10-17",
+            "Statement": [
+              {
+                "Effect": "Allow",
+                "Principal": {
+                  "Service": "ec2.amazonaws.com"
+                },
+                "Action": "sts:AssumeRole"
+              }
+            ]
+          }
+        managed_policies:
+          - "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
+      register: ec2_role_result
+
+    - name: 1.2 Criar o Instance Profile (Para poder atachar a Role na EC2)
+      community.aws.iam_instance_profile:
+        name: "{{ ec2_role_name }}"
+        roles:
+          - "{{ ec2_role_name }}"
+        state: present
+      ignore_errors: true 
+
+    - name: 2.1 Adicionar permissao de SSM na Role teste-profile
+      amazon.aws.iam_policy:
+        iam_type: role
+        iam_name: "{{ ansible_role_name }}"
+        policy_name: "AnsibleSSMExecutionPolicy"
+        state: present
+        policy_json: >
+          {
+            "Version": "2012-10-17",
+            "Statement": [
+              {
+                "Effect": "Allow",
+                "Action": [
+                  "ssm:StartSession",
+                  "ssm:TerminateSession",
+                  "ssm:ResumeSession"
+                ],
+                "Resource": [
+                  "arn:aws:ec2:*:{{ aws_account_id }}:instance/*",
+                  "arn:aws:ssm:*:*:document/AWS-StartSSHSession"
+                ]
+              },
+              {
+                "Effect": "Allow",
+                "Action": [
+                  "ec2:DescribeInstances"
+                ],
+                "Resource": "*"
+              }
+            ]
+          }
+      register: ansible_role_policy
+
+    - name: Resumo da Execucao
+      ansible.builtin.debug:
+        msg: 
+          - "Role EC2 criada: {{ ec2_role_name }}"
+          - "Politica SSM atachada ao {{ ansible_role_name }} com sucesso!"
