@@ -10,7 +10,7 @@
     aws_account_id: "727646502313"
     s3_bucket_name: "cleiton-ssm-bucket"
     target_instance_id: "{{ inventory_hostname }}"
-    region: "us-east-2" # Altere para a sua região
+    myregion: "us-east-2" # Altere para a sua região
     ansible_python_interpreter: /usr/bin/python3
     
   tasks:
@@ -52,7 +52,7 @@
 
     - name: Vincular o Instance Profile à instância EC2
       amazon.aws.ec2_instance:
-        region: "{{ region }}"
+        region: "{{ myregion }}"
         instance_ids:
           - "{{ target_instance_id }}"
         iam_instance_profile: "{{ ec2_role_name }}"
