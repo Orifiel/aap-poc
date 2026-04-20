@@ -12,7 +12,7 @@
     target_instance_id: "{{ inventory_hostname }}"
     region: "us-east-2" # Altere para a sua região
     
- tasks:
+  tasks:
     # ---------------------------------------------------------
     # 1. CRIAÇÃO DO BUCKET S3
     # ---------------------------------------------------------
