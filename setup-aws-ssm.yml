@@ -5,47 +5,72 @@
   gather_facts: false
 
   vars:
-    # Nome da role que as instancias EC2 vao usar
     ec2_role_name: "Role-Para-Instancias-SSM"
-    
-    # O nome da sua role do Ansible que ja existe
     ansible_role_name: "teste-profile"
+    aws_account_id: "727646502313"
+    s3_bucket_name: "cleiton-ssm-bucket"
+    target_instance_id: "{{ inventory_hostname }}"
+    region: "us-east-2" # Altere para a sua região
     
-  tasks:
-    - name: 1.1 Criar a Role IAM para as Instancias EC2
+ tasks:
+    # ---------------------------------------------------------
+    # 1. CRIAÇÃO DO BUCKET S3
+    # ---------------------------------------------------------
+    - name: Criar o bucket S3
+      amazon.aws.s3_bucket:
+        name: "{{ s3_bucket_name }}"
+        region: "{{ region }}"
+        state: present
+        public_access_ some_block: # Garante que o bucket não seja público por erro
+          block_public_acls: true
+          block_public_policy: true
+          ignore_public_acls: true
+          restrict_public_buckets: true
+      register: s3_result
+
+    # ---------------------------------------------------------
+    # 2. CONFIGURAÇÃO DA ROLE DAS INSTÂNCIAS (SSM)
+    # ---------------------------------------------------------
+    - name: Criar a Role IAM para as Instancias EC2
       amazon.aws.iam_role:
         name: "{{ ec2_role_name }}"
-        description: "Permite que instancias EC2 se conectem via AWS Systems Manager (SSM)"
         assume_role_policy_document: >
           {
             "Version": "2012-10-17",
             "Statement": [
               {
                 "Effect": "Allow",
-                "Principal": {
-                  "Service": "ec2.amazonaws.com"
-                },
+                "Principal": { "Service": "ec2.amazonaws.com" },
                 "Action": "sts:AssumeRole"
               }
             ]
           }
         managed_policies:
           - "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
-      register: ec2_role_result
 
-    - name: 1.2 Criar o Instance Profile (Para poder atachar a Role na EC2)
+    - name: Criar o Instance Profile
       community.aws.iam_instance_profile:
         name: "{{ ec2_role_name }}"
         roles:
           - "{{ ec2_role_name }}"
         state: present
-      ignore_errors: true 
 
-    - name: 2.1 Adicionar permissao de SSM na Role teste-profile
+    - name: Vincular o Instance Profile à instância EC2
+      amazon.aws.ec2_instance:
+        region: "{{ region }}"
+        instance_ids:
+          - "{{ target_instance_id }}"
+        iam_instance_profile: "{{ ec2_role_name }}"
+        state: present
+
+    # ---------------------------------------------------------
+    # 3. ATUALIZAÇÃO DA ROLE DO ANSIBLE (Permissões SSM + S3)
+    # ---------------------------------------------------------
+    - name: Adicionar permissões de SSM e S3 na Role teste-profile
       amazon.aws.iam_policy:
         iam_type: role
         iam_name: "{{ ansible_role_name }}"
-        policy_name: "AnsibleSSMExecutionPolicy"
+        policy_name: "AnsibleExecutionFullPolicy"
         state: present
         policy_json: >
           {
@@ -59,23 +84,37 @@
                   "ssm:ResumeSession"
                 ],
                 "Resource": [
-                  "arn:aws:ec2:*:{{ aws_account_id }}:instance/*",
+                  "arn:aws:ec2:*:{{ aws_account_id }}:instance/{{ target_instance_id }}",
                   "arn:aws:ssm:*:*:document/AWS-StartSSHSession"
                 ]
               },
               {
                 "Effect": "Allow",
                 "Action": [
-                  "ec2:DescribeInstances"
+                  "s3:ListBucket",
+                  "s3:GetBucketLocation",
+                  "s3:GetObject",
+                  "s3:PutObject"
+                ],
+                "Resource": [
+                  "arn:aws:s3:::{{ s3_bucket_name }}",
+                  "arn:aws:s3:::{{ s3_bucket_name }}/*"
+                ]
+              },
+              {
+                "Effect": "Allow",
+                "Action": [ 
+                  "ec2:DescribeInstances",
+                  "s3:ListAllMyBuckets"
                 ],
                 "Resource": "*"
               }
             ]
           }
-      register: ansible_role_policy
 
-    - name: Resumo da Execucao
+    - name: Resumo Final
       ansible.builtin.debug:
         msg: 
-          - "Role EC2 criada: {{ ec2_role_name }}"
-          - "Politica SSM atachada ao {{ ansible_role_name }} com sucesso!"
+          - "Bucket S3 '{{ s3_bucket_name }}' criado com sucesso."
+          - "Instância '{{ target_instance_id }}' configurada com perfil SSM."
+          - "Role '{{ ansible_role_name }}' agora tem permissões de S3 e SSM."
