@@ -49,7 +49,7 @@
           - "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
 
     - name: Criar o Instance Profile
-      community.aws.iam_instance_profile:
+      amazon.aws.iam_instance_profile:
         name: "{{ ec2_role_name }}"
         roles:
           - "{{ ec2_role_name }}"
