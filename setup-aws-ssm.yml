@@ -21,11 +21,6 @@
         name: "{{ s3_bucket_name }}"
         region: "{{ region }}"
         state: present
-        public_access_ some_block: # Garante que o bucket não seja público por erro
-          block_public_acls: true
-          block_public_policy: true
-          ignore_public_acls: true
-          restrict_public_buckets: true
       register: s3_result
 
     # ---------------------------------------------------------
