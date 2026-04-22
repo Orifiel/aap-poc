@@ -1,14 +1,32 @@
 ---
-- name: Coletar informações do sistema via SSM
-  hosts: all
-  gather_facts: false  
-  become: true
-  vars:
-    # Nota: No AAP, callbacks de stdout geralmente são controlados pela própria plataforma,
-    # mas manter essa variável aqui não causará problemas.
-    ansible_stdout_callback: ansible.posix.profile_tasks
-    ansible_connection: amazon.aws.aws_ssm
-    ansible_aws_ssm_region: us-east-2
+- name: RAIO-X DO EXECUTION ENVIRONMENT
+  hosts: localhost
+  gather_facts: no
+  tasks:
+    - name: 1. Qual Python o Ansible está usando?
+      ansible.builtin.debug:
+        msg: "Python Executável: {{ ansible_playbook_python }}"
+
+    - name: 2. Listar collections instaladas no container
+      ansible.builtin.shell: ansible-galaxy collection list | grep amazon
+      register: galaxy_list
+      changed_when: false
+
+    - name: 3. Mostrar collections da AWS
+      ansible.builtin.debug:
+        var: galaxy_list.stdout_lines
+
+    - name: 4. Testar se o Python do Ansible enxerga o Boto3
+      ansible.builtin.shell: "{{ ansible_playbook_python }} -c 'import boto3; print(boto3.__file__)'"
+      register: boto3_check
+      ignore_errors: true
+      changed_when: false
+
+    - name: 5. Resultado do Boto3
+      ansible.builtin.debug:
+        msg: 
+          - "Status: {{ 'ENCONTRADO' if boto3_check.rc == 0 else 'FALHOU' }}"
+          - "Detalhes: {{ boto3_check.stdout if boto3_check.rc == 0 else boto3_check.stderr }}"
    
   tasks:
     - name: Coletar quantidade de pacotes instalados (RedHat/Amazon Linux)
