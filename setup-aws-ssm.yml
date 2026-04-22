@@ -9,7 +9,6 @@
     ansible_role_name: "teste-profile"
     aws_account_id: "727646502313"
     s3_bucket_name: "cleiton-ssm-bucket"
-    target_instance_id: "{{ inventory_hostname }}"
     myregion: "us-east-2" # Altere para a sua região
     ansible_python_interpreter: /usr/bin/python3
     
@@ -17,7 +16,7 @@
     - name: Gather information about all instances
       amazon.aws.ec2_instance_info:
       register: target_instance_id
-      
+
     - name: show instance id
       ansible.builtin.debug:
         var: target_instance_id
