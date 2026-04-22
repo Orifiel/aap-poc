@@ -5,7 +5,7 @@
   gather_facts: yes  
   vars:
     ansible_stdout_callback: ansible.posix.profile_tasks
-    ansible_python_interpreter: /usr/bin/python3
+   
   tasks:
     - name: Coletar quantidade de pacotes instalados (RedHat/Amazon Linux)
       ansible.builtin.shell: "rpm -qa | wc -l"
