@@ -4,6 +4,8 @@
   gather_facts: yes  
   become: true
   vars:
+    # Nota: No AAP, callbacks de stdout geralmente são controlados pela própria plataforma,
+    # mas manter essa variável aqui não causará problemas.
     ansible_stdout_callback: ansible.posix.profile_tasks
     ansible_connection: amazon.aws.aws_ssm
     ansible_aws_ssm_region: us-east-2
@@ -13,6 +15,17 @@
       ansible.builtin.shell: "rpm -qa | wc -l"
       register: rpm_count
       when: ansible_os_family == "RedHat"
+      changed_when: false
+
+    - name: Coletar quantidade de pacotes instalados (Debian/Ubuntu)
+      ansible.builtin.shell: "dpkg-query -f '${binary:Package}\n' -W | wc -l"
+      register: dpkg_count
+      when: ansible_os_family == "Debian"
+      changed_when: false
+
+    - name: Isolar informações exatas do disco Raiz (/)
+      ansible.builtin.set_fact:
+        root_mount: "{{ ansible_mounts | selectattr('mount', 'equalto', '/') | first }}"
 
     - name: Exibir Relatório da Instância
       ansible.builtin.debug:
@@ -22,16 +35,16 @@
           - "--------------------------------------------------"
           - "Nome da Máquina (Hostname): {{ ansible_hostname }}"
           - "Sistema Operacional:        {{ ansible_distribution }} {{ ansible_distribution_version }}"
-          - "Arquitetura:               {{ ansible_architecture }}"
+          - "Arquitetura:                {{ ansible_architecture }}"
           - "--------------------------------------------------"
           - "DISCO (Raiz /):"
-          - "  - Total:      {{ ansible_mounts[0].size_total | human_readable }}"
-          - "  - Disponível:   {{ ansible_mounts[0].size_available | human_readable }}"
+          - "  - Total:      {{ root_mount.size_total | human_readable }}"
+          - "  - Disponível: {{ root_mount.size_available | human_readable }}"
           - "--------------------------------------------------"
           - "MEMÓRIA RAM:"
           - "  - Total:      {{ ansible_memtotal_mb }} MB"
           - "  - Livre:      {{ ansible_memfree_mb }} MB"
           - "--------------------------------------------------"
           - "SOFTWARES:"
-          - "  - Pacotes Instalados: {{ rpm_count.stdout if ansible_os_family == 'RedHat' else dpkg_count.stdout }}"
+          - "  - Pacotes Instalados: {{ rpm_count.stdout if ansible_os_family == 'RedHat' else (dpkg_count.stdout if ansible_os_family == 'Debian' else 'N/A') }}"
           - "--------------------------------------------------"
