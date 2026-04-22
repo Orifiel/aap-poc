@@ -22,6 +22,7 @@
       ansible.builtin.set_fact:
         all_instance_ids: "{{ ec2_results.instances | map(attribute='instance_id') | list }}"
 
+
     - name: show instance id
       ansible.builtin.debug:
         var: all_instance_ids
@@ -64,11 +65,12 @@
     - name: Vincular o Instance Profile à instância EC2
       amazon.aws.ec2_instance:
         region: "{{ myregion }}"
-        instance_ids:
-          - "{{ all_instance_ids }}"
+        instance_ids: "{{ item.instance_id }}"
+        image_id: "{{ item.image_id }}"
         iam_instance_profile: "{{ ec2_role_name }}"
+        instance_type: "{{ item.instance_type }}"
         state: present
-
+      loop: "{{ ec2_results.instances }}"
     # ---------------------------------------------------------
     # 3. ATUALIZAÇÃO DA ROLE DO ANSIBLE (Permissões SSM + S3)
     # ---------------------------------------------------------
