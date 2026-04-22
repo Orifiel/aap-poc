@@ -71,6 +71,7 @@
         instance_type: "{{ item.instance_type }}"
         state: present
       loop: "{{ ec2_results.instances }}"
+      when: ec2_results.instances | length > 0
     # ---------------------------------------------------------
     # 3. ATUALIZAÇÃO DA ROLE DO ANSIBLE (Permissões SSM + S3)
     # ---------------------------------------------------------
