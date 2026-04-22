@@ -20,7 +20,7 @@
     - name: Criar o bucket S3
       amazon.aws.s3_bucket:
         name: "{{ s3_bucket_name }}"
-        region: "{{ region }}"
+        region: "{{ myregion }}"
         state: present
       register: s3_result
 
