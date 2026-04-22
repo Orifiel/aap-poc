@@ -16,11 +16,15 @@
     - name: Gather information about all instances
       amazon.aws.ec2_instance_info:
         region: "{{ myregion }}"
-      register: target_instance_id
+      register: ec2_results
+
+    - name: Cria lista de instance_ids
+      ansible.builtin.set_fact:
+        all_instance_ids: "{{ ec2_results.instances | map(attribute='instance_id') | list }}"
 
     - name: show instance id
       ansible.builtin.debug:
-        var: target_instance_id
+        var: all_instance_ids
     # ---------------------------------------------------------
     # 1. CRIAÇÃO DO BUCKET S3
     # ---------------------------------------------------------
