@@ -2,8 +2,11 @@
 - name: Coletar informações do sistema via SSM
   hosts: all
   gather_facts: yes  
+  become: true
   vars:
     ansible_stdout_callback: ansible.posix.profile_tasks
+    ansible_connection: amazon.aws.aws_ssm
+    ansible_aws_ssm_region: us-east-2
    
   tasks:
     - name: Coletar quantidade de pacotes instalados (RedHat/Amazon Linux)
