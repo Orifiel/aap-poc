@@ -1,6 +1,7 @@
 ---
 - name: Coletar informações do sistema via SSM
-  hosts: all
+  hosts: localhost
+  connection: local
   gather_facts: yes  
   vars:
     ansible_stdout_callback: ansible.posix.profile_tasks
