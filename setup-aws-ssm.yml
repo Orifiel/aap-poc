@@ -92,7 +92,7 @@
               }
             ]
           }
-          
+
     - name: Adicionar permissões de SSM e S3 na Role teste-profile
       amazon.aws.iam_policy:
         iam_type: role
@@ -143,5 +143,5 @@
       ansible.builtin.debug:
         msg: 
           - "Bucket S3 '{{ s3_bucket_name }}' criado com sucesso."
-          - "Instância '{{ target_instance_id }}' configurada com perfil SSM."
+          - "Instância '{{ all_instance_ids }}' configurada com perfil SSM."
           - "Role '{{ ansible_role_name }}' agora tem permissões de S3 e SSM."
