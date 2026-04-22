@@ -3,6 +3,19 @@
   hosts: all
   gather_facts: yes
   tasks:
+    - name: Garantir que o gestor de pacotes pip está instalado (Amazon Linux)
+      ansible.builtin.dnf: # O Amazon Linux usa dnf (que é compatível com yum)
+        name: python3-pip
+        state: present
+
+    - name: Instalar boto3 e botocore no host via pip
+      ansible.builtin.pip:
+        name:
+          - boto3
+          - botocore
+        executable: pip3 # Garante que instala para o interpretador do Python 3
+        state: present
+        
     - name: 1. Qual Python o Ansible está usando?
       ansible.builtin.debug:
         msg: "Python Executável: {{ ansible_playbook_python }}"
