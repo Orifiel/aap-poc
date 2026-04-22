@@ -75,6 +75,24 @@
     # ---------------------------------------------------------
     # 3. ATUALIZAÇÃO DA ROLE DO ANSIBLE (Permissões SSM + S3)
     # ---------------------------------------------------------
+    - name: Garantir que a Role do Ansible exista
+      amazon.aws.iam_role:
+        name: "{{ ansible_role_name }}"
+        state: present
+        assume_role_policy_document: >
+          {
+            "Version": "2012-10-17",
+            "Statement": [
+              {
+                "Effect": "Allow",
+                "Principal": {
+                  "AWS": "arn:aws:iam::{{ aws_account_id }}:root"
+                },
+                "Action": "sts:AssumeRole"
+              }
+            ]
+          }
+          
     - name: Adicionar permissões de SSM e S3 na Role teste-profile
       amazon.aws.iam_policy:
         iam_type: role
