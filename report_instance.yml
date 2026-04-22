@@ -1,6 +1,6 @@
 ---
 - name: Coletar informações do sistema via SSM
-  hosts: all
+  hosts: i-052f98dda5681a773
   gather_facts: yes  
   become: true
   vars:
