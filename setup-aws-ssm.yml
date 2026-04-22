@@ -1,6 +1,6 @@
 ---
 - name: Configurar AWS IAM para conexao via SSM
-  hosts: aws_ec2
+  hosts: localhost
   connection: local
   gather_facts: false
 
