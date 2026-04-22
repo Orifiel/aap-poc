@@ -65,7 +65,7 @@
       amazon.aws.ec2_instance:
         region: "{{ myregion }}"
         instance_ids:
-          - "{{ target_instance_id }}"
+          - "{{ all_instance_ids }}"
         iam_instance_profile: "{{ ec2_role_name }}"
         state: present
 
@@ -90,7 +90,7 @@
                   "ssm:ResumeSession"
                 ],
                 "Resource": [
-                  "arn:aws:ec2:*:{{ aws_account_id }}:instance/{{ target_instance_id }}",
+                  "arn:aws:ec2:*:{{ aws_account_id }}:instance/{{ all_instance_ids }}",
                   "arn:aws:ssm:*:*:document/AWS-StartSSHSession"
                 ]
               },
