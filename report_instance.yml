@@ -1,7 +1,7 @@
 ---
 - name: RAIO-X DO EXECUTION ENVIRONMENT
-  hosts: localhost
-  gather_facts: no
+  hosts: all
+  gather_facts: yes
   tasks:
     - name: 1. Qual Python o Ansible está usando?
       ansible.builtin.debug:
