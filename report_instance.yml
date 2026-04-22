@@ -34,10 +34,6 @@
       register: rpm_count
       changed_when: false
 
-    - name: Isolar informações exatas do disco Raiz (/)
-      ansible.builtin.set_fact:
-        root_mount: "{{ ansible_mounts | selectattr('mount', 'equalto', '/') | first }}"
-
     - name: Exibir Relatório da Instância
       ansible.builtin.debug:
         msg:
