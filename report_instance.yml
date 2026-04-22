@@ -2,7 +2,7 @@
 - name: RAIO-X DO EXECUTION ENVIRONMENT
   hosts: all
   gather_facts: yes
-  become: yes
+  become: true
   vars:
     ansible_python_interpreter: /usr/bin/python3
     
