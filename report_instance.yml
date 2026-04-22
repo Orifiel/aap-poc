@@ -14,7 +14,6 @@
     - name: Coletar quantidade de pacotes instalados (RedHat/Amazon Linux)
       ansible.builtin.shell: "rpm -qa | wc -l"
       register: rpm_count
-      when: ansible_os_family == "RedHat"
       changed_when: false
 
     - name: Isolar informações exatas do disco Raiz (/)
