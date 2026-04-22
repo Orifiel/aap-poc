@@ -17,12 +17,6 @@
       when: ansible_os_family == "RedHat"
       changed_when: false
 
-    - name: Coletar quantidade de pacotes instalados (Debian/Ubuntu)
-      ansible.builtin.shell: "dpkg-query -f '${binary:Package}\n' -W | wc -l"
-      register: dpkg_count
-      when: ansible_os_family == "Debian"
-      changed_when: false
-
     - name: Isolar informações exatas do disco Raiz (/)
       ansible.builtin.set_fact:
         root_mount: "{{ ansible_mounts | selectattr('mount', 'equalto', '/') | first }}"
