@@ -6,7 +6,7 @@
 
   vars:
     ec2_role_name: "Role-Para-Instancias-SSM"
-    ansible_role_name: "teste-profile"
+    ansible_role_name: "role-inventory-aap"
     aws_account_id: "727646502313"
     s3_bucket_name: "cleiton-ssm-bucket"
     myregion: "us-east-2" # Altere para a sua região
@@ -111,7 +111,7 @@
                   "ssm:ResumeSession"
                 ],
                 "Resource": [
-                  "arn:aws:ec2:*:{{ aws_account_id }}:instance/{{ all_instance_ids }}",
+                  "arn:aws:ec2:*:{{ aws_account_id }}:instance/*",
                   "arn:aws:ssm:*:*:document/AWS-StartSSHSession"
                 ]
               },
