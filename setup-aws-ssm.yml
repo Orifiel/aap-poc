@@ -93,7 +93,7 @@
             ]
           }
 
-    - name: Adicionar permissões de SSM e S3 na Role teste-profile
+    - name: Adicionar permissões de SSM e S3 na Role {{ ansible_role_name }}
       amazon.aws.iam_policy:
         iam_type: role
         iam_name: "{{ ansible_role_name }}"
