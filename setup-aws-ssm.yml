@@ -149,7 +149,7 @@
     
     - name: Resultado
       ansible.builtin.debug:
-        msg: "Relação de confiança para arn:aws:iam::aws_account_id:user/{{ aws-user }} atualizada. O Sync do inventário já pode ser executado!"
+        msg: "Relação de confiança para arn:aws:iam::aws_account_id:user/{{ aws_user }} atualizada. O Sync do inventário já pode ser executado!"
 
     - name: Resumo Final
       ansible.builtin.debug:
