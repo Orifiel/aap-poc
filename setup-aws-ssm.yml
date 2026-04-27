@@ -7,10 +7,13 @@
   vars:
     ec2_role_name: "Role-Para-Instancias-SSM"
     ansible_role_name: "role-inventory-aap"
+
     aws_account_id: "727646502313"
+    admin_user_arn: "arn:aws:iam::{{ aws_account_id }}:user/open-environment-d7w2b-admin"
+
     s3_bucket_name: "cleiton-ssm-bucket"
     myregion: "us-east-2" # Altere para a sua região
-    #ansible_python_interpreter: /usr/bin/python3
+
     
   tasks:
     - name: Gather information about all instances
@@ -22,10 +25,11 @@
       ansible.builtin.set_fact:
         all_instance_ids: "{{ ec2_results.instances | map(attribute='instance_id') | list }}"
 
-
     - name: show instance id
       ansible.builtin.debug:
         var: all_instance_ids
+
+
     # ---------------------------------------------------------
     # 1. CRIAÇÃO DO BUCKET S3
     # ---------------------------------------------------------
@@ -72,6 +76,8 @@
         state: present
       loop: "{{ ec2_results.instances }}"
       when: ec2_results.instances | length > 0
+
+
     # ---------------------------------------------------------
     # 3. ATUALIZAÇÃO DA ROLE DO ANSIBLE (Permissões SSM + S3)
     # ---------------------------------------------------------
@@ -86,12 +92,13 @@
               {
                 "Effect": "Allow",
                 "Principal": {
-                  "AWS": "arn:aws:iam::{{ aws_account_id }}:root"
+                  "AWS": "{{ admin_user_arn }}"
                 },
                 "Action": "sts:AssumeRole"
               }
             ]
           }
+        register: trust_policy_update
 
     - name: Adicionar permissões de SSM e S3 na Role {{ ansible_role_name }}
       amazon.aws.iam_policy:
@@ -138,28 +145,11 @@
               }
             ]
           }
-    - name: Permitir que o Admin assuma a role-inventory-aap
-      amazon.aws.iam_role:
-        name: "role-inventory-aap"
-        # Isso diz quem pode "vestir" essa role
-        assume_role_policy_document: >
-          {
-            "Version": "2012-10-17",
-            "Statement": [
-              {
-                "Effect": "Allow",
-                "Principal": {
-                  "AWS": "arn:aws:iam::820242904397:user/open-environment-d7w2b-admin"
-                },
-                "Action": "sts:AssumeRole"
-              }
-            ]
-          }
-      register: trust_policy_update
+
     
     - name: Resultado
       ansible.builtin.debug:
-        msg: "Relação de confiança atualizada. O Sync do inventário já pode ser executado!"
+        msg: "Relação de confiança para {{ admin_user_arn }} atualizada. O Sync do inventário já pode ser executado!"
 
     - name: Resumo Final
       ansible.builtin.debug:
