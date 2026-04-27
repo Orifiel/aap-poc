@@ -8,7 +8,7 @@
     ec2_role_name: "Role-Para-Instancias-SSM"
     ansible_role_name: "role-inventory-aap"
 
-    aws_account_id: "727646502313"
+    aws_account_id: "820242904397"
     admin_user_arn: "arn:aws:iam::{{ aws_account_id }}:user/open-environment-d7w2b-admin"
 
     s3_bucket_name: "cleiton-ssm-bucket"
