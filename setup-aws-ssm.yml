@@ -98,7 +98,7 @@
               }
             ]
           }
-        register: trust_policy_update
+      register: trust_policy_update
 
     - name: Adicionar permissões de SSM e S3 na Role {{ ansible_role_name }}
       amazon.aws.iam_policy:
