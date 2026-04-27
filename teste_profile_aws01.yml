@@ -3,11 +3,13 @@
   hosts: localhost
   connection: local
   gather_facts: false
-
+  vars:
+    aws_region: "us-east-1"
   
   tasks:
   - name: Use the assumed role credentials in a subsequent task (e.g., list S3 buckets)
     amazon.aws.s3_bucket_info:
+      region: "{{ aws_region }}"
       #aws_access_key: "{{ wf_access_key }}"
       #aws_secret_key: "{{ wf_secret_key }}"
       #session_token: "{{ wf_session_token }}"
