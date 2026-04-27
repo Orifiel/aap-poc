@@ -14,7 +14,7 @@
 
     - name: 2. Testar chamada na AWS bloqueando o buraco negro do Timeout
       amazon.aws.aws_caller_info:
-        region: "us-east-1"
+        region: "us-east-2"
       environment:
         # Isso proíbe o boto3 de procurar credenciais na rede, forçando o erro na tela.
         AWS_EC2_METADATA_DISABLED: "true"
