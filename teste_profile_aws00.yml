@@ -18,3 +18,9 @@
       var: assumed_role_creds
    
  
+  - name: Exportar credenciais para o próximo Job do Workflow
+    ansible.builtin.set_stats:
+      data:
+        wf_access_key: "{{ assumed_role_creds.sts_creds.access_key }}"
+        wf_secret_key: "{{ assumed_role_creds.sts_creds.secret_key }}"
+        wf_session_token: "{{ assumed_role_creds.sts_creds.session_token }}"
