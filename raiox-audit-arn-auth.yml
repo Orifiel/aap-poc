@@ -1,0 +1,25 @@
+---
+- name: Auditoria de Credenciais AWS no AAP
+  hosts: localhost
+  connection: local
+  gather_facts: true
+  
+  tasks:
+    - name: 1. Verificar se o AAP está injetando as chaves no ambiente
+      ansible.builtin.debug:
+        msg:
+          - "Access Key detectada: {{ 'SIM' if 'AWS_ACCESS_KEY_ID' in ansible_env else 'NÃO' }}"
+          - "Secret Key detectada: {{ 'SIM' if 'AWS_SECRET_ACCESS_KEY' in ansible_env else 'NÃO' }}"
+          - "Session Token (STS) detectado: {{ 'SIM' if 'AWS_SESSION_TOKEN' in ansible_env else 'NÃO' }}"
+
+    - name: 2. Testar chamada na AWS bloqueando o buraco negro do Timeout
+      amazon.aws.aws_caller_info:
+        region: "us-east-1"
+      environment:
+        # Isso proíbe o boto3 de procurar credenciais na rede, forçando o erro na tela.
+        AWS_EC2_METADATA_DISABLED: "true"
+      register: caller_facts
+
+    - name: 3. Mostrar Identidade
+      ansible.builtin.debug:
+        msg: "Sucesso! Identidade ativa: {{ caller_facts.arn }}"
