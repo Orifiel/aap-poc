@@ -8,9 +8,9 @@
   tasks:
   - name: Use the assumed role credentials in a subsequent task (e.g., list S3 buckets)
     amazon.aws.s3_bucket_info:
-      aws_access_key: "{{ wf_access_key }}"
-      aws_secret_key: "{{ wf_secret_key }}"
-      session_token: "{{ wf_session_token }}"
+      #aws_access_key: "{{ wf_access_key }}"
+      #aws_secret_key: "{{ wf_secret_key }}"
+      #session_token: "{{ wf_session_token }}"
     register: s3_buckets
 
   - name: Display S3 bucket info
@@ -19,9 +19,9 @@
 
   - name: Coletar informações da identidade atual
     amazon.aws.aws_caller_info:
-      aws_access_key: "{{ wf_access_key }}"
-      aws_secret_key: "{{ wf_secret_key }}"
-      aws_session_token: "{{ wf_session_token }}"
+      #aws_access_key: "{{ wf_access_key }}"
+      #aws_secret_key: "{{ wf_secret_key }}"
+      #aws_session_token: "{{ wf_session_token }}"
     register: caller_facts
 
   - name: Mostrar ARN da Identidade em uso
