@@ -10,7 +10,7 @@
     aws_account_id: "727646502313"
     s3_bucket_name: "cleiton-ssm-bucket"
     myregion: "us-east-2" # Altere para a sua região
-    ansible_python_interpreter: /usr/bin/python3
+    #ansible_python_interpreter: /usr/bin/python3
     
   tasks:
     - name: Gather information about all instances
