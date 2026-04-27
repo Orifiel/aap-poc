@@ -138,6 +138,28 @@
               }
             ]
           }
+    - name: Permitir que o Admin assuma a role-inventory-aap
+      amazon.aws.iam_role:
+        name: "role-inventory-aap"
+        # Isso diz quem pode "vestir" essa role
+        assume_role_policy_document: >
+          {
+            "Version": "2012-10-17",
+            "Statement": [
+              {
+                "Effect": "Allow",
+                "Principal": {
+                  "AWS": "arn:aws:iam::820242904397:user/open-environment-d7w2b-admin"
+                },
+                "Action": "sts:AssumeRole"
+              }
+            ]
+          }
+      register: trust_policy_update
+    
+    - name: Resultado
+      ansible.builtin.debug:
+        msg: "Relação de confiança atualizada. O Sync do inventário já pode ser executado!"
 
     - name: Resumo Final
       ansible.builtin.debug:
