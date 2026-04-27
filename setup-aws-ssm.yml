@@ -9,7 +9,7 @@
     ansible_role_name: "role-inventory-aap"
 
     #aws_account_id: "820242904397"
-    #admin_user_arn: "arn:aws:iam::{{ aws_account_id }}:user/{{ aws-user }}"
+    #admin_user_arn: "arn:aws:iam::{{ aws_account_id }}:user/{{ aws_user }}"
 
     s3_bucket_name: "cleiton-ssm-bucket"
     myregion: "us-east-2" # Altere para a sua região
@@ -92,7 +92,7 @@
               {
                 "Effect": "Allow",
                 "Principal": {
-                  "AWS": "arn:aws:iam::{{ aws_account_id }}:user/{{ aws-user }}"
+                  "AWS": "arn:aws:iam::{{ aws_account_id }}:user/{{ aws_user }}"
                 },
                 "Action": "sts:AssumeRole"
               }
