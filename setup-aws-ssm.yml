@@ -6,12 +6,14 @@
 
   vars:
     ec2_role_name: "Role-Para-Instancias-SSM"
+
     ansible_role_name: "role-inventory-aap"
 
-    aws_account_id: "077486103195"
-    admin_user_arn: "arn:aws:iam::{{ aws_account_id }}:user/open-environment-nb7bx-admin"
-
+    aws_account_id: "{{ aws_user_id }}"
+    admin_user_arn: "{{ aws_arn_user }}"
+    
     s3_bucket_name: "cleiton-ssm-bucket"
+    
     myregion: "us-east-2" # Altere para a sua região
 
     
