@@ -6,7 +6,7 @@
     critical_services:
       - W32Time
       - WinRM
-
+      - Netlogon
 
   tasks:
     - name: 1. Verify Connection and Basic Info
@@ -45,6 +45,14 @@
         name: "{{ item }}"
       loop: "{{ critical_services }}"
       register: service_result
+
+    - name: Debug Variable 1
+      ansible.builtin.debug:
+        var: health_metrics
+
+    - name: Debug Variable 2
+      ansible.builtin.debug:
+        var: health_metrics.output
 
     - name: 4. Generate Local Health Report
       delegate_to: localhost
