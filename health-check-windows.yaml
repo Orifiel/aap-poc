@@ -83,7 +83,7 @@
 
     - name: 5. Find All Existing Health Reports on Target Host
       ansible.windows.win_find:
-        paths: "{{ report_dir }}"
+        paths: "C:\\"
         patterns: "health_report_{{ ansible_hostname }}_*.txt"
       register: found_reports
 
