@@ -65,16 +65,16 @@
          
           [SYSTEM INFO]
           OS: {{ ansible_distribution | default('Windows') }} {{ ansible_distribution_version | default('') }}
-          Last Boot Time: {{ health_metrics.output.LastBoot }}
-          Uptime: {{ health_metrics.output.UptimeDays }} days
+          Last Boot Time: {{ health_metrics.output[0].LastBoot }}
+          Uptime: {{ health_metrics.output[0].UptimeDays }} days
 
           [PERFORMANCE]
-          CPU Usage: {{ health_metrics.output.CPUUsagePercent }}%
-          Memory Usage: {{ health_metrics.output.MemoryUsagePercent }}%
+          CPU Usage: {{ health_metrics.output[0].CPUUsagePercent }}%
+          Memory Usage: {{ health_metrics.output[0].MemoryUsagePercent }}%
 
           [STORAGE]
-          C: Total Size: {{ health_metrics.output.DiskSizeGB }} GB
-          C: Free Space: {{ health_metrics.output.DiskFreeGB }} GB ({{ health_metrics.output.DiskPercentFree }}% Free)
+          C: Total Size: {{ health_metrics.output[0].DiskSizeGB }} GB
+          C: Free Space: {{ health_metrics.output[0].DiskFreeGB }} GB ({{ health_metrics.output[0].DiskPercentFree }}% Free)
 
           [CRITICAL SERVICES]
           {% for s in service_result.results %}
@@ -85,6 +85,6 @@
 
     - name: "5. Alert if C: drive is low (Less than 15% free)"
       ansible.builtin.fail:
-        msg: "WARNING: {{ ansible_hostname }} is running low on disk space ({{ health_metrics.output.DiskPercentFree }}% left)!"
+        msg: "WARNING: {{ ansible_hostname }} is running low on disk space ({{ health_metrics.output[0].DiskPercentFree }}% left)!"
       when: health_metrics.output.DiskPercentFree | float < 15.0
       ignore_errors: yes 
