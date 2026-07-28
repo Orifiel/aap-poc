@@ -6,7 +6,7 @@
     critical_services:
       - W32Time
       - WinRM
-      - RemoteRegistry
+      - Netlogon
 
   tasks:
     - name: 1. Verify Connection and Basic Info
