@@ -54,9 +54,7 @@
         var: health_metrics.output[0].LastBoot
 
     - name: 4. Generate Local Health Report
-      delegate_to: localhost
-      become: no
-      ansible.builtin.copy:
+      ansible.windows.win_copy:
         content: |
           =======================================================
           HEALTH REPORT FOR: {{ ansible_hostname }}
@@ -81,7 +79,7 @@
           - {{ s.item }}: {{ s.state | default('Unknown') }} (Startup: {{ s.start_mode | default('Unknown') }})
           {% endfor %}
           =======================================================
-        dest: "./health_report_{{ ansible_hostname }}.txt"
+        dest: "C:\\health_report_{{ ansible_hostname }}.txt"
 
     - name: "5. Alert if C: drive is low (Less than 15% free)"
       ansible.builtin.fail:
