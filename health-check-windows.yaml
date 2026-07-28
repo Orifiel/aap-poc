@@ -5,7 +5,6 @@
   vars:
     critical_services:
       - W32Time
-      - WinRM
       - Netlogon
 
   tasks:
