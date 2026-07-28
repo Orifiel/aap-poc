@@ -87,12 +87,12 @@
         patterns: "health_report_{{ ansible_hostname }}_*.txt"
       register: found_reports
 
-    - name: 6. Remove Oldest Reports Keeping Only Last 10
+    - name: 6. Remove Oldest Reports Keeping Only Last 5
       ansible.windows.win_file:
         path: "{{ item.path }}"
         state: absent
-      # O fatiamento JINJA [:-10] isola e retorna tudo o que excede os ultimos 10 itens
-      loop: "{{ (found_reports.files | sort(attribute='path'))[:-10] }}"
+      # O fatiamento JINJA [:-5] isola e retorna tudo o que excede os ultimos 5 itens
+      loop: "{{ (found_reports.files | sort(attribute='path'))[:-5] }}"
 
     - name: "7. Alert if C: drive is low (Less than 15% free)"
       ansible.builtin.fail:
