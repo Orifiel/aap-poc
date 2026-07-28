@@ -86,5 +86,5 @@
     - name: "5. Alert if C: drive is low (Less than 15% free)"
       ansible.builtin.fail:
         msg: "WARNING: {{ ansible_hostname }} is running low on disk space ({{ health_metrics.output[0].DiskPercentFree }}% left)!"
-      when: health_metrics.output.DiskPercentFree | float < 15.0
+      when: health_metrics.output[0].DiskPercentFree | float < 15.0
       ignore_errors: yes 
