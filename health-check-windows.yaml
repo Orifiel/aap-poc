@@ -1,6 +1,6 @@
 ---
 - name: Windows Server Health Check
-  hosts: "{{ inventory_hostname }}"
+  hosts: windows
   gather_facts: yes
   vars:
     critical_services:
