@@ -79,7 +79,7 @@
           - {{ s.item }}: {{ s.state | default('Unknown') }} (Startup: {{ s.start_mode | default('Unknown') }})
           {% endfor %}
           =======================================================
-        dest: "C:\\health_report_{{ ansible_hostname }}.txt"
+        dest: "C:\\health_report_{{ ansible_hostname }}_{{ ansible_date_time.iso8601_basic_short }}.txt"
 
     - name: "5. Alert if C: drive is low (Less than 15% free)"
       ansible.builtin.fail:
