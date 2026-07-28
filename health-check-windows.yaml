@@ -47,7 +47,11 @@
 
     - name: Debug Variable 1
       ansible.builtin.debug:
-        var: health_metrics.output['0']['LastBoot']
+        var: health_metrics
+        
+    - name: Debug Variable 2
+      ansible.builtin.debug:
+        var: health_metrics.output
 
     - name: 4. Generate Local Health Report
       delegate_to: localhost
