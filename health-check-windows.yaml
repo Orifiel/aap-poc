@@ -81,7 +81,20 @@
           =======================================================
         dest: "C:\\health_report_{{ ansible_hostname }}_{{ ansible_date_time.iso8601_basic_short  }}.txt"
 
-    - name: "5. Alert if C: drive is low (Less than 15% free)"
+    - name: 5. Find All Existing Health Reports on Target Host
+      ansible.windows.win_find:
+        paths: "{{ report_dir }}"
+        patterns: "health_report_{{ ansible_hostname }}_*.txt"
+      register: found_reports
+
+    - name: 6. Remove Oldest Reports Keeping Only Last 10
+      ansible.windows.win_file:
+        path: "{{ item.path }}"
+        state: absent
+      # O fatiamento JINJA [:-10] isola e retorna tudo o que excede os ultimos 10 itens
+      loop: "{{ (found_reports.files | sort(attribute='path'))[:-10] }}"
+
+    - name: "7. Alert if C: drive is low (Less than 15% free)"
       ansible.builtin.fail:
         msg: "WARNING: {{ ansible_hostname }} is running low on disk space ({{ health_metrics.output[0].DiskPercentFree }}% left)!"
       when: health_metrics.output[0].DiskPercentFree | float < 15.0
