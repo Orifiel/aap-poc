@@ -1,0 +1,83 @@
+---
+- name: Windows Server Health Check
+  hosts: windows
+  gather_facts: yes
+  vars:
+    critical_services:
+      - W32Time
+      - WinRM
+      - RemoteRegistry
+
+  tasks:
+    - name: 1. Verify Connection and Basic Info
+      ansible.builtin.debug:
+        msg: "Checking health for {{ ansible_hostname }} (IP: {{ ansible_ip_addresses | default('N/A') }})"
+    
+    - name: 2. Get Consolidated System Health Metrics
+      ansible.windows.win_powershell:
+        script: |
+          $os = Get-CimInstance Win32_OperatingSystem
+          $uptime = (Get-Date) - $os.LastBootUpTime
+          
+          $drive = Get-CimInstance Win32_LogicalDisk -Filter "DeviceID='C:'"
+          
+          # Coleta de CPU (tratando possível erro em caso de VMs muito ociosas que podem retornar nulo)
+          $cpuMetric = Get-CimInstance Win32_Processor | Measure-Object -Property LoadPercentage -Average
+          $cpu = if ($null -ne $cpuMetric.Average) { $cpuMetric.Average } else { 0 }
+          
+          $totalMem = $os.TotalVisibleMemorySize
+          $freeMem = $os.FreePhysicalMemory
+          $memUsage = [math]::Round((($totalMem - $freeMem) / $totalMem) * 100, 2)
+
+          [PSCustomObject]@{
+              LastBoot           = $os.LastBootUpTime.ToString('yyyy-MM-dd HH:mm:ss')
+              UptimeDays         = [math]::Round($uptime.TotalDays, 2)
+              DiskSizeGB         = [math]::Round($drive.Size / 1GB, 2)
+              DiskFreeGB         = [math]::Round($drive.FreeSpace / 1GB, 2)
+              DiskPercentFree    = [math]::Round(($drive.FreeSpace / $drive.Size) * 100, 2)
+              CPUUsagePercent    = $cpu
+              MemoryUsagePercent = $memUsage
+          }
+      register: health_metrics
+
+    - name: 3. Check Critical Services Status
+      ansible.windows.win_service:
+        name: "{{ item }}"
+      loop: "{{ critical_services }}"
+      register: service_result
+
+    - name: 4. Generate Local Health Report
+      delegate_to: localhost
+      become: no
+      ansible.builtin.copy:
+        content: |
+          =======================================================
+          HEALTH REPORT FOR: {{ ansible_hostname }}
+          Generated on: {{ lookup('pipe', 'date "+%Y-%m-%d %H:%M:%S"') }}
+          =======================================================
+         
+          [SYSTEM INFO]
+          OS: {{ ansible_distribution | default('Windows') }} {{ ansible_distribution_version | default('') }}
+          Last Boot Time: {{ health_metrics.output.LastBoot }}
+          Uptime: {{ health_metrics.output.UptimeDays }} days
+
+          [PERFORMANCE]
+          CPU Usage: {{ health_metrics.output.CPUUsagePercent }}%
+          Memory Usage: {{ health_metrics.output.MemoryUsagePercent }}%
+
+          [STORAGE]
+          C: Total Size: {{ health_metrics.output.DiskSizeGB }} GB
+          C: Free Space: {{ health_metrics.output.DiskFreeGB }} GB ({{ health_metrics.output.DiskPercentFree }}% Free)
+
+          [CRITICAL SERVICES]
+          {% for s in service_result.results %}
+          - {{ s.item }}: {{ s.state | default('Unknown') }} (Startup: {{ s.start_mode | default('Unknown') }})
+          {% endfor %}
+          =======================================================
+        dest: "./health_report_{{ ansible_hostname }}.txt"
+
+    - name: "5. Alert if C: drive is low (Less than 15% free)"
+      ansible.builtin.fail:
+        msg: "WARNING: {{ ansible_hostname }} is running low on disk space ({{ health_metrics.output.DiskPercentFree }}% left)!"
+      when: health_metrics.output.DiskPercentFree | float < 15.0
+      ignore_errors: yes 
