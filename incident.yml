@@ -7,7 +7,7 @@
   tasks:
     - name: Adicionar nota de trabalho (Work Note) informando a captura
       servicenow.itsm.incident:
-        number: "{{ incident_id }}"
+        number: "{{ incident_id | default(event.payload.incident_number | default('INC0000000')) }}"
         work_notes: "[AUTOMAÇÃO EDA] O evento foi capturado com sucesso! O Red Hat Ansible Automation Platform iniciou o processamento deste incidente."
       register: snow_update
 
