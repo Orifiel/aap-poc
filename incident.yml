@@ -7,6 +7,10 @@
   tasks:
     - name: Adicionar nota de trabalho (Work Note) informando a captura
       servicenow.itsm.incident:
+        instance:
+          host: "{{ lookup('ansible.builtin.env', 'SN_HOST') }}"
+          username: "{{ lookup('ansible.builtin.env', 'SN_USERNAME') }}"
+          password: "{{ lookup('ansible.builtin.env', 'SN_PASSWORD') }}"
         number: "{{ incident_id | default(event.payload.incident_number | default('INC0000000')) }}"
         work_notes: "[AUTOMAÇÃO EDA] O evento foi capturado com sucesso! O Red Hat Ansible Automation Platform iniciou o processamento deste incidente."
       register: snow_update
