@@ -13,7 +13,8 @@
           password: "i6/7p^QkAxBE"
         number: "{{ incident_id | default(event.payload.incident_number | default('INC0000000')) }}"
         state: in_progress
-        description: "[AUTOMAÇÃO EDA] O evento foi capturado com sucesso! O Red Hat Ansible Automation Platform iniciou o processamento deste incidente."
+        other:
+          work_notes: "[AUTOMAÇÃO EDA] O evento foi capturado com sucesso! O Red Hat Ansible Automation Platform iniciou o processamento deste incidente."
       register: snow_update
 
     - name: Exibir o resultado da atualização
