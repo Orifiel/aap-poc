@@ -10,7 +10,7 @@
         instance:
           host: "{{ snow_host }}"
           username: "{{ snow_username }}"
-          password: "{{ snow_password }}s"
+          password: "{{ snow_password }}"
         number: "{{ incident_id | default(event.payload.incident_number | default('INC0000000')) }}"
         state: in_progress
         other:
