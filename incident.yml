@@ -8,9 +8,9 @@
     - name: Adicionar nota de trabalho (Work Note) informando a captura
       servicenow.itsm.incident:
         instance:
-          host: https://dev437076.service-now.com
-          username: admin
-          password: "i6/7p^QkAxBE"
+          host: "{{ snow_host }}"
+          username: "{{ snow_username }}"
+          password: "{{ snow_password }}s"
         number: "{{ incident_id | default(event.payload.incident_number | default('INC0000000')) }}"
         state: in_progress
         other:
