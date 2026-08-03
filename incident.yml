@@ -9,10 +9,10 @@
   tasks:
     - name: Adicionar nota de trabalho (Work Note) informando a captura
       servicenow.itsm.incident:
-        instance:
-          host: "{{ snow_host }}"
-          username: "{{ snow_username }}"
-          password: "{{ snow_password }}"
+        #instance:
+        #  host: "{{ snow_host }}"
+        #  username: "{{ snow_username }}"
+        #  password: "{{ snow_password }}"
         number: "{{ incident_id | default(event.payload.incident_number | default('INC0000000')) }}"
         state: in_progress
         other:
