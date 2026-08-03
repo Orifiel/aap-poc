@@ -3,8 +3,8 @@
   hosts: localhost
   connection: local
   gather_facts: false
-  vars_files:
-    - vault.yml
+  #vars_files:
+  #  - vault.yml
   vars:
   tasks:
     - name: Adicionar nota de trabalho (Work Note) informando a captura
