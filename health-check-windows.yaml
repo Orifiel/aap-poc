@@ -8,11 +8,11 @@
       - Netlogon
 
   tasks:
-    - name: 1. Verify Connection and Basic Info
+    - name: Verify Connection and Basic Info
       ansible.builtin.debug:
         msg: "Checking health for {{ ansible_hostname }} (IP: {{ ansible_ip_addresses | default('N/A') }})"
     
-    - name: 2. Get Consolidated System Health Metrics
+    - name: Get Consolidated System Health Metrics
       ansible.windows.win_powershell:
         script: |
           $os = Get-CimInstance Win32_OperatingSystem
@@ -39,7 +39,7 @@
           }
       register: health_metrics
 
-    - name: 3. Check Critical Services Status
+    - name: Check Critical Services Status
       ansible.windows.win_service:
         name: "{{ item }}"
       loop: "{{ critical_services }}"
@@ -53,7 +53,7 @@
       ansible.builtin.debug:
         var: health_metrics.output[0].LastBoot
 
-    - name: 4. Generate Local Health Report
+    - name: Generate Local Health Report
       ansible.windows.win_copy:
         content: |
           =======================================================
@@ -81,21 +81,21 @@
           =======================================================
         dest: "C:\\health_report_{{ ansible_hostname }}_{{ ansible_date_time.iso8601_basic_short  }}.txt"
 
-    - name: 5. Find All Existing Health Reports on Target Host
+    - name: Find All Existing Health Reports on Target Host
       ansible.windows.win_find:
         paths: "C:\\"
         patterns: "health_report_{{ ansible_hostname }}_*.txt"
       register: found_reports
 
-    - name: 6. Remove Oldest Reports Keeping Only Last 5
+    - name: Remove Oldest Reports Keeping Only Last 5
       ansible.windows.win_file:
         path: "{{ item.path }}"
         state: absent
       # O fatiamento JINJA [:-5] isola e retorna tudo o que excede os ultimos 5 itens
       loop: "{{ (found_reports.files | sort(attribute='path'))[:-5] }}"
 
-    - name: "7. Alert if C: drive is low (Less than 15% free)"
-      ansible.builtin.fail:
+    - name: "Alert if C: drive is low (Less than 15% free)"
+      ansible.builtin.debug:
         msg: "WARNING: {{ ansible_hostname }} is running low on disk space ({{ health_metrics.output[0].DiskPercentFree }}% left)!"
       when: health_metrics.output[0].DiskPercentFree | float < 15.0
-      ignore_errors: yes 
+      
