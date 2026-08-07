@@ -12,7 +12,6 @@
     - name: upgrade all packages
       ansible.builtin.dnf: 
         name: "*"
-        update_only: yes
         state: latest  
 
     - name: Verificação de reboot necessária
