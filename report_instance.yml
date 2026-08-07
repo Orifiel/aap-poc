@@ -17,7 +17,7 @@
     #    state: latest  
 
     - name: Verificação de reboot necessária
-      ansible.builtin.command: needs-restarting -r
+      ansible.builtin.command: dnf needs-restarting -r
       changed_when: false
       failed_when: false
       register: reboot_hint
