@@ -16,3 +16,5 @@
       ansible.builtin.reboot:
         msg: "Reboot required for updated kernel"
       when: reboot_hint.rc == 1
+
+      #teste
