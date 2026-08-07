@@ -9,12 +9,12 @@
       ansible.builtin.debug:
         var: "{{ ansible_facts['fqdn']}}"
 
-    - name: upgrade all packages
-      ansible.builtin.dnf: 
-        name: "*"
-        update_only: yes
-        allow_downgrade: true
-        state: latest  
+    #- name: upgrade all packages
+    #  ansible.builtin.dnf: 
+    #    name: "*"
+    #    update_only: yes
+    #    allow_downgrade: true
+    #    state: latest  
 
     - name: Verificação de reboot necessária
       ansible.builtin.command: needs-restarting -r
